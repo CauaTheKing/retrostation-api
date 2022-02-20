@@ -118,9 +118,9 @@ api.add_resource(AddAccount, "/add_account/<string:username>/<string:user_pass>/
 def get_dict(page, password):
     if cau_md5(password) == write_password:
         if page == 'get_dict':
-            return f'<p>{dumps(users.dictio)}</p>'.replace('\n', ' ')
+            return dumps(users.dictio).replace('\n', ' ')
         if page == 'get_logged_ins':
-            return f'<p>{dumps(verification_keys)}</p>'.replace('\n', ' ')
+            return dumps(verification_keys).replace('\n', ' ')
     else:
         return {"message": "Wrong password."}, 403
 
