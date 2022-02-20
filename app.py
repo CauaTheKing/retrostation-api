@@ -1,5 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask_restful import Api, Resource
+from json import dumps
 from threading import Thread
 
 
@@ -117,9 +118,9 @@ api.add_resource(AddAccount, "/add_account/<string:username>/<string:user_pass>/
 def get_dict(page, password):
     if cau_md5(password) == write_password:
         if page == 'get_dict':
-            return '<p>'+str(users.dictio).replace("'", '"').replace('\n', ' ')+'</p>'
+            return f'<p>{dumps(users.dictio)}</p>'.replace('\n', ' ')
         if page == 'get_logged_ins':
-            return '<p>'+str(verification_keys).replace("'", '"').replace('\n', ' ')+'</p>'
+            return f'<p>{dumps(verification_keys)}</p>'.replace('\n', ' ')
     else:
         return {"message": "Wrong password."}, 403
 
