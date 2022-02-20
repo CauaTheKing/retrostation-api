@@ -61,7 +61,7 @@ def add_account_put(_, username, user_pass, add_pass):
 
 def get_dict_get(_, password):
     if cau_md5(password) == write_password:
-        return dumps(users.dictio), 200
+        return f"'{dumps(users.dictio)}'".replace('\\"', '"').replace('\n', ' '), 200
     else:
         return {"message": "Wrong password."}, 403
 
