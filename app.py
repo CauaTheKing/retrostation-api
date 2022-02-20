@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_restful import Api, Resource
 from json import dump
+from threading import Thread
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -139,5 +141,6 @@ api.add_resource(Remove, "/remove/<string:username>/<string:rem_pass>")
 api.add_resource(ChangePassword, "/change_password/<string:username>/<string:old_pass>/<string:new_pass>")
 
 
-if __name__ == "__main__":
-    app.run()
+if __name__ == '__main__':
+    Thread(target=app.run, kwargs={"debug": True}).run()
+    print("App is running")
