@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, make_response
+from flask import Flask, render_template
 from flask_restful import Api, Resource
 from threading import Thread
 
@@ -58,20 +58,6 @@ def add_account_put(_, username, user_pass, add_pass):
         return "403", 403
 
 
-def get_dict_get(_, password):
-    if cau_md5(password) == write_password:
-        return str(users.dictio).replace("'", '"').replace('\n', ' '), 200
-    else:
-        return {"message": "Wrong password."}, 403
-
-
-def get_logged_ins_get(_, password):
-    if cau_md5(password) == write_password:
-        return str(verification_keys).replace("'", '"').replace('\n', ' '), 200
-    else:
-        return {"message": "Wrong password."}, 403
-
-
 def verify_get(_, verification_key):
     if verification_key in list(verification_keys.values()):
         return {"do": "nothing"}, 200
@@ -110,14 +96,6 @@ class Verify(Resource):
     get = verify_get
 
 
-class GetDict(Resource):
-    get = get_dict_get
-
-
-class GetLoggedIns(Resource):
-    get = get_logged_ins_get
-
-
 class AddAccount(Resource):
     put = add_account_put
 
@@ -133,8 +111,19 @@ class ChangePassword(Resource):
 api.add_resource(LogIn, "/login/<string:username>/<string:password>")
 api.add_resource(LogOut, "/logout/<string:username>/<string:verification_key>")
 api.add_resource(AddAccount, "/add_account/<string:username>/<string:user_pass>/<string:add_pass>")
-api.add_resource(GetDict, "/get_dict/<string:password>")
-api.add_resource(GetLoggedIns, "/get_logged_ins/<string:password>")
+
+
+@app.route("/pages/<string:page>/<string:password>")
+def get_dict(page, password):
+    if cau_md5(password) == write_password:
+        if page == 'get_dict':
+            return '<p>'+str(users.dictio).replace("'", '"').replace('\n', ' ')+'</p>'
+        if page == 'get_logged_ins':
+            return '<p>'+str(verification_keys).replace("'", '"').replace('\n', ' ')+'</p>'
+    else:
+        return {"message": "Wrong password."}, 403
+
+
 api.add_resource(Verify, "/verify/<string:verification_key>")
 api.add_resource(Remove, "/remove/<string:username>/<string:rem_pass>")
 api.add_resource(ChangePassword, "/change_password/<string:username>/<string:old_pass>/<string:new_pass>")
