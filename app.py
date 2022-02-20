@@ -90,8 +90,8 @@ def remove_get(_, username, rem_pass):
 
 
 def change_password_get(_, username, old_pass, new_pass):
-    if cau_md5(old_pass) == users[username]:
-        user[username] = cau_md5(new_pass)
+    if cau_md5(old_pass) == users.dictio[username]:
+        users.dictio[username] = cau_md5(new_pass)
         return {"message": "Success."}, 200
     else:
         return {"message": "Wrong password."}, 403
