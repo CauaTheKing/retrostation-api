@@ -21,7 +21,7 @@ class Users:
 
 
 users = Users()
-write_password = "f3f7c3aa692d203cc779b829c657e08e"
+write_password = "b67de9ae5aa918fdc07366425d99ea69"
 
 
 def login_get(_, username, password):
