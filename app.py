@@ -61,14 +61,14 @@ def get_dict_get(_, password):
     if cau_md5(password) == write_password:
         return users.dictio, 200
     else:
-        return {"message": "Wrong password."}
+        return {"message": "Wrong password."}, 403
 
 
 def get_logged_ins_get(_, password):
     if cau_md5(password) == write_password:
         return verification_keys, 200
     else:
-        return {"message": "Wrong password."}
+        return {"message": "Wrong password."}, 403
 
 
 def verify_get(_, verification_key):
@@ -76,6 +76,25 @@ def verify_get(_, verification_key):
         return {"do": "nothing"}, 200
     else:
         return {"do": "log_out"}, 403
+
+
+def remove_get(_, username, rem_pass):
+    if cau_md5(rem_pass) == write_password:
+        for key, value in verification_keys.items():
+            if value == username:
+                verification_keys.pop(key)
+        users.dictio.pop(username)
+        return {"message": "Success."}, 200
+    else:
+        return {"message": "Wrong password."}, 403
+
+
+def change_password_get(_, username, old_pass, new_pass):
+    if cau_md5(old_pass) == users[username]:
+        user[username] = cau_md5(new_pass)
+        return {"message": "Success."}, 200
+    else:
+        return {"message": "Wrong password."}, 403
 
 
 class LogIn(Resource):
@@ -102,12 +121,23 @@ class AddAccount(Resource):
     put = add_account_put
 
 
+class Remove(Resource):
+    get = remove_get
+
+
+class ChangePassword(Resource):
+    get = change_password_get
+
+
 api.add_resource(LogIn, "/login/<string:username>/<string:password>")
 api.add_resource(LogOut, "/logout/<string:username>/<string:verification_key>")
 api.add_resource(AddAccount, "/add_account/<string:username>/<string:user_pass>/<string:add_pass>")
 api.add_resource(GetDict, "/get_dict/<string:password>")
 api.add_resource(GetLoggedIns, "/get_logged_ins/<string:password>")
 api.add_resource(Verify, "/verify/<string:verification_key>")
+api.add_resource(Remove, "/remove/<string:username>/<string:rem_pass>")
+api.add_resource(ChangePassword, "/change_password/<string:username>/<string:old_pass>/<string:new_pass>")
+
 
 if __name__ == "__main__":
     app.run()
