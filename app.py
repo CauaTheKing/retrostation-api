@@ -60,28 +60,14 @@ def add_account_put(_, username, user_pass, add_pass):
 
 def get_dict_get(_, password):
     if cau_md5(password) == write_password:
-        response = make_response(
-            jsonify(
-                users.dictio
-            ),
-            200,
-        )
-        response.headers["Content-Type"] = "application/json"
-        return response
+        str(users.dictio).replace("'", '"').replace('\n', ' '), 200
     else:
         return {"message": "Wrong password."}, 403
 
 
 def get_logged_ins_get(_, password):
     if cau_md5(password) == write_password:
-        response = make_response(
-            jsonify(
-                verification_keys
-            ),
-            200,
-        )
-        response.headers["Content-Type"] = "application/json"
-        return response
+        return str(verification_keys).replace("'", '"').replace('\n', ' '), 200
     else:
         return {"message": "Wrong password."}, 403
 
