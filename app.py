@@ -60,7 +60,7 @@ def add_account_put(_, username, user_pass, add_pass):
 
 def get_dict_get(_, password):
     if cau_md5(password) == write_password:
-        str(users.dictio).replace("'", '"').replace('\n', ' '), 200
+        return str(users.dictio).replace("'", '"').replace('\n', ' '), 200
     else:
         return {"message": "Wrong password."}, 403
 
