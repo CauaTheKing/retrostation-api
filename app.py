@@ -142,5 +142,4 @@ api.add_resource(ChangePassword, "/change_password/<string:username>/<string:old
 
 
 if __name__ == '__main__':
-    Thread(target=app.run, kwargs={"debug": True}).run()
-    print("App is running")
+    app.run(debug=True,threaded=True)
