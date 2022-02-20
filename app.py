@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api, Resource
-from json import dump
+from json import dumps
 from threading import Thread
 
 
@@ -61,14 +61,14 @@ def add_account_put(_, username, user_pass, add_pass):
 
 def get_dict_get(_, password):
     if cau_md5(password) == write_password:
-        return users.dictio, 200
+        return dumps(users.dictio), 200
     else:
         return {"message": "Wrong password."}, 403
 
 
 def get_logged_ins_get(_, password):
     if cau_md5(password) == write_password:
-        return verification_keys, 200
+        return dumps(verification_keys), 200
     else:
         return {"message": "Wrong password."}, 403
 
