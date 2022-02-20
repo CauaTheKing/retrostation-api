@@ -1,6 +1,5 @@
-from flask import Flask
+from flask import Flask, jsonify, make_response
 from flask_restful import Api, Resource
-from json import dumps
 from threading import Thread
 
 
@@ -61,14 +60,28 @@ def add_account_put(_, username, user_pass, add_pass):
 
 def get_dict_get(_, password):
     if cau_md5(password) == write_password:
-        return f"'{dumps(users.dictio)}'".replace('\\"', '"').replace('\n', ' '), 200
+        response = make_response(
+            jsonify(
+                users.dictio
+            ),
+            200,
+        )
+        response.headers["Content-Type"] = "application/json"
+        return response
     else:
         return {"message": "Wrong password."}, 403
 
 
 def get_logged_ins_get(_, password):
     if cau_md5(password) == write_password:
-        return dumps(verification_keys), 200
+        response = make_response(
+            jsonify(
+                verification_keys
+            ),
+            200,
+        )
+        response.headers["Content-Type"] = "application/json"
+        return response
     else:
         return {"message": "Wrong password."}, 403
 
@@ -142,4 +155,4 @@ api.add_resource(ChangePassword, "/change_password/<string:username>/<string:old
 
 
 if __name__ == '__main__':
-    app.run(debug=True,threaded=True)
+    app.run(debug=True)
