@@ -28,7 +28,7 @@ write_password = "b67de9ae5aa918fdc07366425d99ea69"
 
 def login_get(_, username, password):
     if username in list(verification_keys.keys()):
-        return '{"message": "Account already in use."}', 403
+        return {"message": "Account already in use."}, 403
     else:
         if username not in list(users.dictio.keys()):
             return {"message": "Wrong username."}, 403
