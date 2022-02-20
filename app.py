@@ -58,14 +58,14 @@ def add_account_put(_, username, user_pass, add_pass):
 
 
 def get_dict_get(_, password):
-    if cau_md5(add_pass) == write_password:
+    if cau_md5(password) == write_password:
         return users.dictio, 200
     else:
         return {"message": "Wrong password."}
 
 
 def get_logged_ins_get(_, password):
-    if cau_md5(add_pass) == write_password:
+    if cau_md5(password) == write_password:
         return verification_keys, 200
     else:
         return {"message": "Wrong password."}
